@@ -60,21 +60,29 @@ Below is a snapshot preview of the telemetry control center displaying real-time
 
 ---
 
-## 🖥️ Dashboard Interface Layout
+## 🖥️ Interactive Dashboard Layout
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Status-Live_Streaming-brightgreen?style=for-the-badge&logo=statuspage" alt="Live Status" />
+  <img src="https://img.shields.io/badge/Protocol-WebSockets_|_MQTT-blue?style=for-the-badge" alt="Protocol" />
+  <img src="https://img.shields.io/badge/Latency-<50ms-orange?style=for-the-badge" alt="Latency" />
+</p>
 
 ```text
-+-----------------------------------------------------------------------+
-|  PATIENT TELEMETRY MONITOR — ROOM 402                   [LIVE STREAM] |
-+-----------------------------------------------------------------------+
-|                                                                       |
-|  ECG Waveform (Lead I)                                                |
-|  /\    /\    /\    /\    /\    /\    /\    /\    /\    /\             |
-| /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \            |
-|/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \           |
-+------------------------------------+----------------------------------+
-|  HEART RATE        |  SpO2         |  TEMPERATURE     | SYSTEM STATUS |
-|  72 BPM            |  98%          |  36.8 °C         | 🟢 Connected  |
-+--------------------+---------------+------------------+---------------+
++-----------------------------------------------------------------------------------+
+|  🏥 PATIENT TELEMETRY MONITOR — UNIT 402                   [🔴 LIVE STREAMING]   |
++-----------------------------------------------------------------------------------+
+|                                                                                   |
+|  📈 ECG Waveform (Lead I) — 25mm/s                                                 |
+|  /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\         |
+| /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \        |
+|/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \       |
+|                                                                                   |
++----------------------+----------------------+----------------------+--------------+
+|  🫀 HEART RATE       |  🩸 SpO2 LEVEL       |  🌡️ BODY TEMP        | 🟢 SYSTEM    |
+|  72 BPM              |  98%                 |  36.8 °C             | CONNECTED    |
+|  [████████░░] Normal |  [█████████░] Optimal|  [████████░░] Normal | Battery: 94% |
++----------------------+----------------------+----------------------+--------------+
 ```
 ## 📋 Prerequisites
 * **IDE:** PlatformIO IDE or Arduino IDE 2.x
