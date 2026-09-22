@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Healthcare Telemetry Gateway</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e7eaf0;
+            padding: 20px 5%;
+        }
+
+        .header-content {
+            max-width: 1250px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand h1 {
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+        }
+
+        .brand p {
+            margin-top: 5px;
+            color: #7a8497;
+            font-size: 13px;
+        }
+
+
+        /* ================= LIVE STATUS ================= */
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 14px;
+
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: 600;
+            color: #15803d;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+
+            background: #22c55e;
+
+            border-radius: 50%;
+
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 32px 5% 50px;
+        }
+
+
+        /* ================= DEVICE BAR ================= */
+
+        .device-bar {
+
+            background: #ffffff;
+
+            border: 1px solid #e7eaf0;
+
+            border-radius: 14px;
+
+            padding: 18px 22px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 24px;
+
+            box-shadow: 0 3px 12px rgba(20, 30, 50, 0.04);
+        }
+
+        .device-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #8992a3;
+            margin-bottom: 5px;
+        }
+
+        .device-id {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .last-update {
+            text-align: right;
+        }
+
+        .last-update-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        /* ================= METRIC CARDS ================= */
+
+        .metrics {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+
+            background: #ffffff;
+
+            border: 1px solid #e7eaf0;
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 20px rgba(20, 30, 50, 0.05);
+
+            transition: transform 0.2s ease,
+                        box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px rgba(20, 30, 50, 0.08);
+        }
+
+        .metric-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .metric-title {
+
+            color: #6f7a8d;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+        }
+
+        .metric-icon {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            font-size: 21px;
+        }
+
+        .heart-icon {
+
+            background: #fff1f2;
+            color: #e11d48;
+        }
+
+        .oxygen-icon {
+
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .metric-value {
+
+            font-size: 48px;
+
+            font-weight: 750;
+
+            letter-spacing: -2px;
+
+            color: #172033;
+        }
+
+        .metric-unit {
+
+            font-size: 15px;
+
+            color: #7a8497;
+
+            margin-left: 5px;
+        }
+
+        .metric-footer {
+
+            margin-top: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            font-size: 12px;
+
+            color: #758095;
+        }
+
+        .mini-dot {
+
+            width: 7px;
+            height: 7px;
+
+            background: #22c55e;
+
+            border-radius: 50%;
+        }
+
+
+        /* ================= SECTION ================= */
+
+        .section {
+
+            background: #ffffff;
+
+            border: 1px solid #e7eaf0;
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 5px 20px rgba(20, 30, 50, 0.04);
+        }
+
+        .section-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+
+            color: #8992a3;
+
+            font-size: 12px;
+        }
+
+
+        /* ================= CHART ================= */
+
+        .chart-container {
+
+            width: 100%;
+
+            height: 280px;
+
+            position: relative;
+        }
+
+        canvas {
+
+            width: 100% !important;
+
+            height: 100% !important;
+        }
+
+
+        /* ================= INFO GRID ================= */
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .info-box {
+
+            background: #f8fafc;
+
+            border: 1px solid #edf0f5;
+
+            border-radius: 12px;
+
+            padding: 17px;
+        }
+
+        .info-label {
+
+            color: #8992a3;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+        }
+
+        .info-value {
+
+            margin-top: 7px;
+
+            font-size: 15px;
+
+            font-weight: 650;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+
+            text-align: center;
+
+            color: #9aa3b2;
+
+            font-size: 12px;
+
+            padding-top: 5px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 750px) {
+
+            .header-content {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .device-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .last-update {
+                text-align: left;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-value {
+                font-size: 40px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="header-content">
+
+        <div class="brand">
+
+            <h1>
+                Healthcare Telemetry Gateway
+            </h1>
+
+            <p>
+                Real-time physiological data acquisition & monitoring
+            </p>
+
+        </div>
+
+
+        <div class="live-status">
+
+            <span class="live-dot"></span>
+
+            <span id="connectionStatus">
+                LIVE
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+
+    <!-- DEVICE -->
+
+    <div class="device-bar">
+
+        <div>
+
+            <div class="device-label">
+                Monitoring Device
+            </div>
+
+            <div
+                class="device-id"
+                id="deviceId"
+            >
+                ESP32-CAM-001
+            </div>
+
+        </div>
+
+
+        <div class="last-update">
+
+            <div class="device-label">
+                Last Telemetry Update
+            </div>
+
+            <div
+                class="last-update-value"
+                id="timestamp"
+            >
+                --
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- METRICS -->
+
+    <div class="metrics">
+
+
+        <!-- HEART RATE -->
+
+        <div class="metric-card">
+
+            <div class="metric-top">
+
+                <div class="metric-title">
+                    Heart Rate
+                </div>
+
+                <div
+                    class="metric-icon heart-icon"
+                >
+                    ♥
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <span
+                    class="metric-value"
+                    id="heartRate"
+                >
+                    --
+                </span>
+
+                <span class="metric-unit">
+                    BPM
+                </span>
+
+            </div>
+
+
+            <div class="metric-footer">
+
+                <span class="mini-dot"></span>
+
+                Receiving telemetry
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SPO2 -->
+
+        <div class="metric-card">
+
+            <div class="metric-top">
+
+                <div class="metric-title">
+                    Blood Oxygen
+                </div>
+
+                <div
+                    class="metric-icon oxygen-icon"
+                >
+                    ◉
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <span
+                    class="metric-value"
+                    id="spo2"
+                >
+                    --
+                </span>
+
+                <span class="metric-unit">
+                    %
+                </span>
+
+            </div>
+
+
+            <div class="metric-footer">
+
+                <span class="mini-dot"></span>
+
+                Receiving telemetry
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HEART RATE GRAPH -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    Heart Rate
+                </div>
+
+                <div class="section-subtitle">
+                    Live telemetry history
+                </div>
+
+            </div>
+
+            <div class="section-subtitle">
+                BPM
+            </div>
+
+        </div>
+
+
+        <div class="chart-container">
+
+            <canvas id="heartRateChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SPO2 GRAPH -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    Blood Oxygen
+                </div>
+
+                <div class="section-subtitle">
+                    Live telemetry history
+                </div>
+
+            </div>
+
+            <div class="section-subtitle">
+                SpO₂ %
+            </div>
+
+        </div>
+
+
+        <div class="chart-container">
+
+            <canvas id="spo2Chart"></canvas>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- DEVICE INFORMATION -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <div class="section-title">
+                Gateway Information
+            </div>
+
+        </div>
+
+
+        <div class="info-grid">
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Device
+                </div>
+
+                <div
+                    class="info-value"
+                    id="deviceInfo"
+                >
+                    ESP32-CAM-001
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Sensor
+                </div>
+
+                <div class="info-value">
+                    MAX30102
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Data Source
+                </div>
+
+                <div class="info-value">
+                    Simulator
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        Healthcare Telemetry Gateway ·
+        ESP32 + MAX30102
+
+    </footer>
+
+
+</main>
+
+
+
+<script>
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let heartRateValues = [];
+
+let spo2Values = [];
+
+
+
+/* =====================================================
+   CANVAS
+===================================================== */
+
+const heartCanvas =
+    document.getElementById(
+        "heartRateChart"
+    );
+
+const spo2Canvas =
+    document.getElementById(
+        "spo2Chart"
+    );
+
+
+
+/* =====================================================
+   DRAW GRAPH
+===================================================== */
+
+function drawChart(canvas, values, type) {
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+
+    const dpr =
+        window.devicePixelRatio || 1;
+
+
+    canvas.width =
+        rect.width * dpr;
+
+    canvas.height =
+        rect.height * dpr;
+
+
+    ctx.scale(dpr, dpr);
+
+
+    const width =
+        rect.width;
+
+    const height =
+        rect.height;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    if (values.length < 2) {
+
+        return;
+
+    }
+
+
+    const paddingLeft = 45;
+
+    const paddingRight = 15;
+
+    const paddingTop = 20;
+
+    const paddingBottom = 30;
+
+
+    let min =
+        Math.min(...values);
+
+    let max =
+        Math.max(...values);
+
+
+    if (type === "spo2") {
+
+        min = Math.min(min - 1, 94);
+
+        max = Math.max(max + 1, 100);
+
+    } else {
+
+        min -= 5;
+
+        max += 5;
+
+    }
+
+
+    const graphWidth =
+        width -
+        paddingLeft -
+        paddingRight;
+
+
+    const graphHeight =
+        height -
+        paddingTop -
+        paddingBottom;
+
+
+
+    /* GRID */
+
+    ctx.strokeStyle =
+        "#edf0f5";
+
+    ctx.lineWidth = 1;
+
+
+    for (let i = 0; i <= 4; i++) {
+
+        const y =
+            paddingTop +
+            (graphHeight / 4) * i;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            paddingLeft,
+            y
+        );
+
+        ctx.lineTo(
+            width - paddingRight,
+            y
+        );
+
+        ctx.stroke();
+
+    }
+
+
+
+    /* Y LABELS */
+
+    ctx.fillStyle =
+        "#8992a3";
+
+    ctx.font =
+        "11px Arial";
+
+
+    for (let i = 0; i <= 4; i++) {
+
+        const value =
+            max -
+            ((max - min) / 4) * i;
+
+
+        const y =
+            paddingTop +
+            (graphHeight / 4) * i;
+
+
+        ctx.fillText(
+            Math.round(value),
+            5,
+            y + 4
+        );
+
+    }
+
+
+
+    /* LINE */
+
+    ctx.beginPath();
+
+
+    values.forEach(
+        (value, index) => {
+
+            const x =
+                paddingLeft +
+                (
+                    index /
+                    (values.length - 1)
+                ) *
+                graphWidth;
+
+
+            const y =
+                paddingTop +
+                (
+                    (max - value) /
+                    (max - min)
+                ) *
+                graphHeight;
+
+
+            if (index === 0) {
+
+                ctx.moveTo(
+                    x,
+                    y
+                );
+
+            } else {
+
+                ctx.lineTo(
+                    x,
+                    y
+                );
+
+            }
+
+        }
+    );
+
+
+    ctx.strokeStyle =
+        type === "heart"
+            ? "#e11d48"
+            : "#2563eb";
+
+
+    ctx.lineWidth = 2.5;
+
+    ctx.lineJoin = "round";
+
+    ctx.lineCap = "round";
+
+    ctx.stroke();
+
+
+
+    /* LAST POINT */
+
+    const lastIndex =
+        values.length - 1;
+
+
+    const lastX =
+        paddingLeft +
+        (
+            lastIndex /
+            (values.length - 1)
+        ) *
+        graphWidth;
+
+
+    const lastY =
+        paddingTop +
+        (
+            (max - values[lastIndex]) /
+            (max - min)
+        ) *
+        graphHeight;
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        lastX,
+        lastY,
+        4,
+        0,
+        Math.PI * 2
+    );
+
+
+    ctx.fillStyle =
+        type === "heart"
+            ? "#e11d48"
+            : "#2563eb";
+
+    ctx.fill();
+
+}
+
+
+
+/* =====================================================
+   GET LATEST DATA
+===================================================== */
+
+async function updateDashboard() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/latest"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.status ===
+            "no_data"
+        ) {
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "heartRate"
+        ).textContent =
+            data.heart_rate;
+
+
+        document.getElementById(
+            "spo2"
+        ).textContent =
+            data.spo2;
+
+
+        document.getElementById(
+            "deviceId"
+        ).textContent =
+            data.device_id;
+
+
+        document.getElementById(
+            "deviceInfo"
+        ).textContent =
+            data.device_id;
+
+
+        document.getElementById(
+            "timestamp"
+        ).textContent =
+            new Date(
+                data.timestamp
+            ).toLocaleTimeString();
+
+
+        document.getElementById(
+            "connectionStatus"
+        ).textContent =
+            "LIVE";
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "connectionStatus"
+        ).textContent =
+            "OFFLINE";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   GET HISTORY
+===================================================== */
+
+async function updateHistory() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/history"
+            );
+
+
+        const history =
+            await response.json();
+
+
+        heartRateValues =
+            history
+                .map(
+                    data =>
+                        data.heart_rate
+                )
+                .filter(
+                    value =>
+                        value !== null
+                );
+
+
+        spo2Values =
+            history
+                .map(
+                    data =>
+                        data.spo2
+                )
+                .filter(
+                    value =>
+                        value !== null
+                );
+
+
+        drawChart(
+            heartCanvas,
+            heartRateValues,
+            "heart"
+        );
+
+
+        drawChart(
+            spo2Canvas,
+            spo2Values,
+            "spo2"
+        );
+
+
+    } catch (error) {
+
+        console.log(
+            "History error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+updateDashboard();
+
+updateHistory();
+
+
+setInterval(
+    updateDashboard,
+    1000
+);
+
+
+setInterval(
+    updateHistory,
+    2000
+);
+
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        drawChart(
+            heartCanvas,
+            heartRateValues,
+            "heart"
+        );
+
+
+        drawChart(
+            spo2Canvas,
+            spo2Values,
+            "spo2"
+        );
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
