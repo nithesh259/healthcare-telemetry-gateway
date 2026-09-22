@@ -16,99 +16,42 @@
 
 ---
 
-## 📌 Overview
 
-The **Healthcare Telemetry Gateway** is an open-source hardware and software solution designed to bridge physiological sensors with remote telemetry dashboards. Built around the **ESP32 microcontroller**, it continuously collects vital telemetry (ECG, SpO2, Heart Rate, Temperature), processes signals locally, and transmits encrypted streams over Wi-Fi/MQTT to central monitoring systems.
+### Low-Cost ESP32-Powered Physiological Data Acquisition Gateway for Real-Time Remote Patient Monitoring
+
+A modular healthcare telemetry system designed to acquire physiological parameters from low-cost sensors, process the data at an **ESP32 edge gateway**, and transmit telemetry to a remote monitoring platform.
+
+The project currently includes a **Python-based physiological sensor simulator, Flask telemetry backend, and real-time web dashboard**, allowing the complete software pipeline to be developed and tested before connecting the physical MAX30102 sensor.
 
 ---
 
-## ⚡ Key Features
+## 📌 Project Overview
 
-| Feature | Description | Tech Stack / Protocol |
-| :--- | :--- | :--- |
-| 📊 **Real-Time Streaming** | Low-latency physiological data acquisition and processing | MQTT / WebSockets |
-| 🛡️ **Reliable Buffer** | Local fail-safe buffering prevents data loss during outage | SPIFFS / TLS 1.3 |
-| ⚡ **Low Power** | Optimized battery lifecycle for continuous patient monitoring | ESP32 Sleep Modes |
-| 🖥️ **Live Dashboard** | Interactive dashboard with waveform rendering & alerts | React / Grafana |
-| 🔌 **Modular Design** | Expandable sensor interface for multi-parameter logging | I2C / SPI / ADC |
+Remote patient monitoring systems require reliable acquisition and transmission of physiological data such as:
+
+- ❤️ Heart Rate
+- 🫁 Blood Oxygen Saturation (SpO₂)
+- 🌡️ Temperature
+- 📡 Device connectivity and telemetry status
+
+This project explores a low-cost architecture using an **ESP32-CAM as the edge gateway** and the **MAX30102 optical sensor** for heart-rate and SpO₂ acquisition.
+
+The system is designed with a modular architecture so that simulated data can be replaced by real sensor data without changing the dashboard or backend architecture.
 
 ---
 
 ## 🏗️ System Architecture
 
-```text
-+-------------------+        +-------------------------+        +--------------------+
-|  Health Sensors   | -----> |  ESP32 Gateway Node     | -----> | Telemetry Backend  |
-| (ECG, SpO2, Temp) |        | (Signal Prep & Buffer)  |  MQTT  | (Node.js/Database) |
-+-------------------+        +-------------------------+        +--------------------+
-                                                                          |
-                                                                          v
-                                                                +--------------------+
-                                                                |   Live Dashboard   |
-                                                                +--------------------+
-```
-## 📊 Live Monitoring Dashboard
+### Current Development Pipeline
 
-Below is a snapshot preview of the telemetry control center displaying real-time signal waveforms, physiological health ranges, and live patient metrics:
+```mermaid
+flowchart LR
 
-| Metric | Normal Range | Live Value | Signal Status | Visual Gauge |
-| :--- | :--- | :--- | :--- | :--- |
-| **Heart Rate (BPM)** | 60 – 100 BPM | `72 BPM` | 🟢 Stable | `[████████░░] 72%` |
-| **SpO2 Level (%)** | 95 – 100 % | `98 %` | 🟢 Optimal | `[█████████░] 98%` |
-| **Body Temp (°C)** | 36.5 – 37.5 °C | `36.8 °C` | 🟢 Normal | `[████████░░] 36.8°` |
-| **ECG Lead-I** | Standard Range | `Active` | 📈 Streaming | `[~~~~~~~~~~~~]` |
+    A[Python MAX30102 Simulator]
+    B[Flask Backend]
+    C[REST API]
+    D[Web Dashboard]
 
----
-
-## 🖥️ Interactive Dashboard Layout
-
-<p align="left">
-  <img src="https://img.shields.io/badge/Status-Live_Streaming-brightgreen?style=for-the-badge&logo=statuspage" alt="Live Status" />
-  <img src="https://img.shields.io/badge/Protocol-WebSockets_|_MQTT-blue?style=for-the-badge" alt="Protocol" />
-  <img src="https://img.shields.io/badge/Latency-<50ms-orange?style=for-the-badge" alt="Latency" />
-</p>
-
-```text
-+-----------------------------------------------------------------------------------+
-|  🏥 PATIENT TELEMETRY MONITOR — UNIT 402                   [🔴 LIVE STREAMING]   |
-+-----------------------------------------------------------------------------------+
-|                                                                                   |
-|  📈 ECG Waveform (Lead I) — 25mm/s                                                 |
-|  /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\         |
-| /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \        |
-|/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \       |
-|                                                                                   |
-+----------------------+----------------------+----------------------+--------------+
-|  🫀 HEART RATE       |  🩸 SpO2 LEVEL       |  🌡️ BODY TEMP        | 🟢 SYSTEM    |
-|  72 BPM              |  98%                 |  36.8 °C             | CONNECTED    |
-|  [████████░░] Normal |  [█████████░] Optimal|  [████████░░] Normal | Battery: 94% |
-+----------------------+----------------------+----------------------+--------------+
-```
-## 📋 Prerequisites
-* **IDE:** PlatformIO IDE or Arduino IDE 2.x
-* **Hardware:** ESP32 Development Board & CP210x/CH340 Drivers
-* **Environment:** Node.js (v18+) & npm
-
-## 🚀 Quick Start Guide
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/nithesh259/healthcare-telemetry-gateway.git
-cd healthcare-telemetry-gateway
-```
-
-### 2. Flash Firmware
-```bash
-cd firmware/healthcare-gateway
-pio run --target upload
-```
-
-### 3. Launch Dashboard & Backend
-```bash
-cd ../../dashboard
-npm install
-npm start
-```
-
-## 📜 License
-Distributed under the MIT License. See `LICENSE` for details.
+    A -->|HTTP POST| B
+    B --> C
+    C --> D
